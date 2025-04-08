@@ -1,8 +1,6 @@
 .env
 
 # Ignore package-lock.json
-package-lock.json
+/team-red/package-lock.json
 
-# Ignore compiled CSS files
-styles.css
 
