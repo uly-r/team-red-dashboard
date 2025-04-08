@@ -16,3 +16,12 @@
         config.php                # Configuration file for environment variables, database settings
     /sql
     /docs                         # Project documentation (e.g., setup instructions)
+
+
+
+## Project Setup
+
+This project uses Tailwind CSS, and the following files are excluded from version control:
+
+- **`package-lock.json`**: This allows each team member to manage their own version of dependencies. Please run `npm install` to set up the dependencies on your local machine.
+- **`styles.css`**: This is a generated file (compiled from `input.css`). Please run `npm run build` to regenerate the CSS file if you make any changes to the styles.
