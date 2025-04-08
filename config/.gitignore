@@ -1,6 +1,6 @@
 .env
 
 # Ignore package-lock.json
-/team-red/package-lock.json
+/package-lock.json
 
 
