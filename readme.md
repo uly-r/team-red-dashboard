@@ -1,4 +1,4 @@
-/Team Red
+/Team-Red
     /src
         /assets                  # Images, icons, fonts, etc.
         /css                      # Custom styles, Tailwind configurations
