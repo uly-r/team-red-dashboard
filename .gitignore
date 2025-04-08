@@ -1,0 +1,5 @@
+# Ignore package-lock.json
+package-lock.json
+
+# Ignore compiled CSS files
+styles.css
