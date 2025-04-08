@@ -2,7 +2,8 @@
     /src
         /assets                  # Images, icons, fonts, etc.
         /css                      # Custom styles, Tailwind configurations
-            /tailwind.config.js  # Tailwind configuration file (if you're using Tailwind)
+            input.css
+            styles.css                       
         /js                       # JavaScript files for front-end functionality (e.g., form handling, dynamic content)
         /php                      # PHP files (backend logic, database connections, etc.)
             /includes            # Includes (e.g., header, footer, database connections)
@@ -14,8 +15,11 @@
         index.php                 # Main entry point (could be your dashboard or home page) 
     /config
         config.php                # Configuration file for environment variables, database settings
+        .gitignore
     /sql
     /docs                         # Project documentation (e.g., setup instructions)
+    package-lock.json
+    package.json
 
 
 
