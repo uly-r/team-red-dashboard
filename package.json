@@ -1,25 +1,4 @@
 {
-  "name": "team-red",
-  "version": "1.0.0",
-  "description": "/Team Red\r     /src\r         /assets                  # Images, icons, fonts, etc.\r         /css                      # Custom styles, Tailwind configurations\r             /tailwind.config.js  # Tailwind configuration file (if you're using Tailwind)\r         /js                       # JavaScript files for front-end functionality (e.g., form handling, dynamic content)\r         /php                      # PHP files (backend logic, database connections, etc.)\r             /includes            # Includes (e.g., header, footer, database connections)\r             /functions           # Helper functions (e.g., for task management, authentication)\r             /models               # Models for interacting with the database (e.g., tasks, users)\r         /views                    # HTML or PHP templates for different pages (e.g., dashboard.php, settings.php)\r     /public\r         /assets                   # Public assets like images and fonts\r         index.php                 # Main entry point (could be your dashboard or home page) \r     /config\r         config.php                # Configuration file for environment variables, database settings\r     /sql\r     /docs                         # Project documentation (e.g., setup instructions)",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BMCC-CSC-350/team-red.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BMCC-CSC-350/team-red/issues"
-  },
-  "homepage": "https://github.com/BMCC-CSC-350/team-red#readme",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.3",
     "tailwindcss": "^4.1.3"
