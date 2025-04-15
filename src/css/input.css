@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.bg-cream {
+    background-color: #FBF4ED;
+  }
+  
+  .bg-gray {
+    background-color: #393C3C;
+  }
