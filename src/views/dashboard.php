@@ -98,6 +98,9 @@
 
 
     </div>
+
+    <script src="../../src/js/weather.js"></script>
+
 </body>
 
 </html>
