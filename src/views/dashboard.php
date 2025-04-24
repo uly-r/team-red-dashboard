@@ -78,8 +78,9 @@
             <div class="grid grid-cols-3 gap-6 p-5">
                 <!-- Left Column -->
                 <div class="flex flex-col gap-6">
-                    <div class="bg-white rounded-xl p-4 shadow">To Do List</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
-                    <div class="bg-white rounded-xl p-4 shadow">Quick Links</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
+                    <div class="bg-white rounded-xl p-4 shadow">To Do List</div>
+                    <?php include '../views/components/quicklinks_card.php'; ?>
+                    <!-- <div class="bg-white rounded-xl p-4 shadow">Quick Links</div> -->
                 </div>
                 <!-- Middle Column -->
                 <div class="flex flex-col gap-6">
@@ -100,6 +101,7 @@
     </div>
 
     <script src="../../src/js/weather.js"></script>
+    <script src="../../src/js/quicklink.js"></script>
 
 </body>
 

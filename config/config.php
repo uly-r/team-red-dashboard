@@ -1,7 +1,7 @@
 <?php
 
 // Load environment variables from the .env file
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/.env');
 
 
 //define() is used to define a constant and can be accessed from anywhere in the script
