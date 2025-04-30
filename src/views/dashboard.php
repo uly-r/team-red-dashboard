@@ -1,3 +1,8 @@
+<?php
+session_start();
+// Temporary for testing until sign-in page is implemented
+$_SESSION['user_id'] = 1; // Remove after authentication is added
+?>
 <!doctype html>
 <html>
 

@@ -8,12 +8,13 @@
             /functions           # Helper functions (e.g., for task management, authentication)
                 /quicklinks
                     add_links.php
+                    delete_links.php
+                    get_links.php
             /models               # Models for interacting with the database (e.g., tasks, users)
         /views                    # HTML or PHP templates for different pages (e.g., dashboard.php, settings.php)
             /componenents
                 quicklinks_card.php
                 weather.php
-            quicklink_page.php
             dashboard.php
     /public
         /assets                   # Public assets like images and fonts
