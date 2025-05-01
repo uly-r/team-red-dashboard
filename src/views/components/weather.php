@@ -27,13 +27,4 @@
 
 <?php
 
-/*
-<h1 id="CityDisplay" class="text-3xl font-bold">Miami</h1>
-            <p id="TempDisplay">90</p>
-            <p id="HumidityDisplay">Humidity: 75%</p>
-            <p id="descDisplay">Clear Skies</p>
-            <p id="weatherEmoji" class="text-9xl">☀️</p>
-            <p id="ErrorDisplay">Error</p>
-*/
-
 ?>

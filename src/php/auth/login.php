@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../db.php';
+require '../../php/includes/db_connect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashed_password)) {
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $username;
-            header("Location: dashboard.php");
+            header("Location: /team-red/src/views/dashboard.php");
             exit();
         } else {
             echo "Invalid credentials.";
