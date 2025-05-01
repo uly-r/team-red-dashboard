@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             this refreshes and redirects back to the task page, this may be changed since its hard coded
            */
 
-           header("Location: ../task.php");
+           header("Location: ../dashboard.php");
            exit();
         } else {
             echo "Error: " . $stmt->error;
