@@ -1,28 +1,40 @@
 <?php
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once __DIR__ . '/../../php/includes/db_connect.php';
 
-// Start session (for message flashing)
-session_start();
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['add_note'])) {
+        $stmt = $conn->prepare("INSERT INTO notes (user_id, title, content) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $_SESSION['user_id'], $_POST['title'], $_POST['content']);
+        $stmt->execute();
+        $_SESSION['note_message'] = "Note added successfully!";
+    } elseif (isset($_POST['update_note'])) {
+        $stmt = $conn->prepare("UPDATE notes SET title = ?, content = ? WHERE id = ? AND user_id = ?");
+        $stmt->bind_param("ssii", $_POST['title'], $_POST['content'], $_POST['note_id'], $_SESSION['user_id']);
+        $stmt->execute();
+        $_SESSION['note_message'] = "Note updated successfully!";
+    }
 
-// Dummy data to simulate database records
-$notes = [
-    [
-        'id' => 1,
-        'title' => 'Welcome to your Notes',
-        'content' => 'This is your first note. Edit or delete it to get started!',
-        'user_id' => 1
-    ],
-    [
-        'id' => 2,
-        'title' => 'Sample Meeting Notes',
-        'content' => 'Discuss project timeline with team\nPrepare presentation',
-        'user_id' => 1
-    ]
-];
+    // Redirect to avoid resubmission
+  
+}
 
-// Simulate editing if edit parameter is present
+// Handle deletion
+if (isset($_GET['delete'])) {
+    $stmt = $conn->prepare("DELETE FROM notes WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $_GET['delete'], $_SESSION['user_id']);
+    $stmt->execute();
+    $_SESSION['note_message'] = "Note deleted successfully!";
+}
+
+// Fetch notes
+$stmt = $conn->prepare("SELECT * FROM notes WHERE user_id = ? ORDER BY id DESC");
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+$notes = $result->fetch_all(MYSQLI_ASSOC);
+
+// Edit mode
 $editing_note = null;
 if (isset($_GET['edit'])) {
     foreach ($notes as $note) {
@@ -31,49 +43,6 @@ if (isset($_GET['edit'])) {
             break;
         }
     }
-}
-
-// Simulate form submission handling
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['add_note'])) {
-        // Simulate adding a new note
-        $newId = count($notes) + 1;
-        $notes[] = [
-            'id' => $newId,
-            'title' => $_POST['title'],
-            'content' => $_POST['content'],
-            'user_id' => 1
-        ];
-        $_SESSION['note_message'] = "Note added successfully! (Simulated)";
-    }
-    elseif (isset($_POST['update_note'])) {
-        // Simulate updating a note
-        foreach ($notes as &$note) {
-            if ($note['id'] == $_POST['note_id']) {
-                $note['title'] = $_POST['title'];
-                $note['content'] = $_POST['content'];
-                break;
-            }
-        }
-        $_SESSION['note_message'] = "Note updated successfully! (Simulated)";
-    }
-    
-    // Prevent form resubmission
-    header("Location: notes.php");
-    exit;
-}
-
-// Simulate note deletion
-if (isset($_GET['delete'])) {
-    foreach ($notes as $key => $note) {
-        if ($note['id'] == $_GET['delete']) {
-            unset($notes[$key]);
-            break;
-        }
-    }
-    $_SESSION['note_message'] = "Note deleted successfully! (Simulated)";
-    header("Location: notes.php");
-    exit;
 }
 ?>
 
@@ -86,30 +55,25 @@ if (isset($_GET['delete'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Simple header -->
-    <header class="bg-white shadow">
-        <div class="container mx-auto px-4 py-4">
-            <h1 class="text-xl font-bold text-gray-800">Personal Dashboard (Demo Mode)</h1>
-        </div>
-    </header>
+<body>
     
-    <main class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
+
+        <h2 class="text-xl font-bold text-gray-800 m-5 ml-0">Notes</h2>
         <!-- Flash Messages -->
         <?php if (isset($_SESSION['note_message'])): ?>
-            <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded w-full">
                 <?= $_SESSION['note_message']; unset($_SESSION['note_message']); ?>
             </div>
         <?php endif; ?>
-
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Note Form -->
             <div class="lg:w-1/3">
-                <div class="bg-white rounded-lg shadow p-6 sticky top-4">
+                <div class="bg-white rounded-lg shadow-xl p-6 sticky top-4">
                     <h2 class="text-xl font-bold text-gray-800 mb-4">
                         <?= $editing_note ? 'Edit Note' : 'New Note' ?>
                     </h2>
-                    <form action="notes.php" method="POST">
+                    <form action="" method="POST">
                         <?php if ($editing_note): ?>
                             <input type="hidden" name="note_id" value="<?= $editing_note['id'] ?>">
                         <?php endif; ?>
@@ -151,7 +115,7 @@ if (isset($_GET['delete'])) {
                 </div>
                 
                 <?php if (empty($notes)): ?>
-                    <div class="bg-white rounded-lg shadow p-8 text-center">
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
                         <i class="fas fa-clipboard text-4xl text-gray-300 mb-3"></i>
                         <p class="text-gray-600">No notes yet. Create your first one!</p>
                     </div>
@@ -165,12 +129,13 @@ if (isset($_GET['delete'])) {
                                             <?= htmlspecialchars($note['title']) ?>
                                         </h3>
                                         <div class="flex space-x-3">
-                                            <a href="notes.php?edit=<?= $note['id'] ?>" 
+                                            <!-- <a href="dashboard.php?edit=<?= $note['id'] ?>$notes" 
                                                class="text-blue-500 hover:text-blue-700"
                                                title="Edit">
                                                 <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="notes.php?delete=<?= $note['id'] ?>" 
+                                            </a> -->
+                                            
+                                            <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
                                                class="text-red-500 hover:text-red-700"
                                                title="Delete"
                                                onclick="return confirm('Delete this note permanently?')">
@@ -186,66 +151,6 @@ if (isset($_GET['delete'])) {
                 <?php endif; ?>
             </div>
         </div>
-    </main>
+    </div>
 </body>
 </html>
-
-<!-- When you're ready to connect to an actual database, here's what you'll need to modify, and yes - with this self-contained version you don't need notes_actions.php anymore.
-
-1. Database Transition Guide
-What to Remove
-Delete the dummy data array:
-
-php
-$notes = [
-    [
-        'id' => 1,
-        'title' => 'Welcome to your Notes',
-        // ...
-    ],
-    // ...
-];
-Remove the simulated form handling:
-
-php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Delete this entire block
-}
-
-if (isset($_GET['delete'])) {
-    // Delete this entire block
-}
-What to Add
-Database connection (at the top):
-
-php
-require_once '../db.php'; // Your database connection file
-Real database queries:
-
-php
-// Fetch notes from database
-$stmt = $pdo->prepare("SELECT * FROM notes WHERE user_id = ? ORDER BY id DESC");
-$stmt->execute([$_SESSION['user_id']]);
-$notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Handle form submission (add/edit)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['add_note'])) {
-        $stmt = $pdo->prepare("INSERT INTO notes (user_id, title, content) VALUES (?, ?, ?)");
-        $stmt->execute([$_SESSION['user_id'], $_POST['title'], $_POST['content']]);
-    } 
-    elseif (isset($_POST['update_note'])) {
-        $stmt = $pdo->prepare("UPDATE notes SET title = ?, content = ? WHERE id = ? AND user_id = ?");
-        $stmt->execute([$_POST['title'], $_POST['content'], $_POST['note_id'], $_SESSION['user_id']]);
-    }
-    header("Location: notes.php");
-    exit;
-}
-
-// Handle deletion
-if (isset($_GET['delete'])) {
-    $stmt = $pdo->prepare("DELETE FROM notes WHERE id = ? AND user_id = ?");
-    $stmt->execute([$_GET['delete'], $_SESSION['user_id']]);
-    header("Location: notes.php");
-    exit;
-} -->

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Dashboard - Login</title>
+    <title>Sign Up</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,17 +16,17 @@
             margin: 0;
         }
 
-        .login-container {
+        .signup-container {
             background: white;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
         }
 
-        .login-container h1 {
+        .signup-container h2 {
             margin-bottom: 1.5rem;
             color: #333;
         }
@@ -50,7 +50,7 @@
             font-size: 1rem;
         }
 
-        .login-button {
+        .signup-button {
             width: 100%;
             padding: 0.75rem;
             background-color: #4CAF50;
@@ -62,42 +62,50 @@
             margin-top: 1rem;
         }
 
-        .login-button:hover {
+        .signup-button:hover {
             background-color: #45a049;
         }
 
-        .signup-link {
+        .login-link {
             margin-top: 1rem;
             display: block;
             color: #555;
         }
 
-        .signup-link a {
+        .login-link a {
             color: #4CAF50;
             text-decoration: none;
         }
 
-        .signup-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <h1>Welcome Back</h1>
-        <form action="auth.php" method="POST">
+    <div class="signup-container">
+        <h2>Create an Account</h2>
+        <form action="../src/php/auth/signup.php" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" class="login-button">Login</button>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit" class="signup-button">Sign Up</button>
         </form>
-        <p class="signup-link">Don't have an account? <a href="signup.php">Sign Up</a></p>
+        <p class="login-link">Already have an account? <a href="login.html">Login</a></p>
     </div>
 </body>
 
