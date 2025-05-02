@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'])) {
         //goes back to the previous page
         echo "
             <script>
-                alert('Task deleted');
+                // alert('Task deleted');
                 window.location.href = '" . $_SERVER['HTTP_REFERER'] . "'; 
             </script>
         ";

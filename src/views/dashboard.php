@@ -94,13 +94,13 @@ if (!isset($_SESSION['user_id'])) {
             <div class="grid grid-cols-3 gap-6 p-5">
                 <!-- Left Column -->
                 <div class="flex flex-col gap-6">
-                    <div class="bg-white rounded-xl p-4 shadow">To Do List</div>
+                    <?php include '../views/components/task.php'; ?>
                     <?php include '../views/components/quicklinks_card.php'; ?>
                     <!-- <div class="bg-white rounded-xl p-4 shadow">Quick Links</div> -->
                 </div>
                 <!-- Middle Column -->
                 <div class="flex flex-col gap-6">
-                    <div class="bg-white rounded-xl p-4 shadow">Calendar</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
+                    <?php include '../views/components/calender.php'; ?>
                     <?php include '../views/components/notes.php'; ?>
                 </div>
                 <!-- Right Column -->
