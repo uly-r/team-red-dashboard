@@ -27,6 +27,18 @@ function getTaskStatusLabel($taskStatus)
     //convert 0 or 1 to completed or not completed status
     return $taskStatus == 1 ? 'Completed' : 'Not Completed';
 }
+
+function renderEditButton($task) {
+    // Grabs the values of the current row(array) and passes them to the form
+     return '
+         <button onclick="openForm(' .
+             htmlspecialchars($task['id']) . ', \'' .
+             htmlspecialchars($task['title']) . '\', \'' .
+             htmlspecialchars($task['description']) . '\', \'' .
+             $task['is_completed'] . '\', \'' .
+             htmlspecialchars($task['due_date']) . '\')">Edit</button>';
+ }
+
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +47,7 @@ function getTaskStatusLabel($taskStatus)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../public/assets/task-form.css" rel="stylesheet">
     <title>Task page</title>
 </head>
 
@@ -79,7 +92,7 @@ function getTaskStatusLabel($taskStatus)
                             <td id="taskDesc-<?= $taskID ?>"><?= htmlspecialchars($taskDesc) ?></td>
                             <td id="dateDue-<?= $taskID ?>"><?= htmlspecialchars($dateDue) ?></td>
                             <td id="taskStatus-<?= $taskID ?>"><?= getTaskStatusLabel($taskStatus); ?> </td>
-                            <td>edit button here</td> <!-- Will add this later-->
+                            <td><?= renderEditButton($row);?></td> <!-- Will add this later-->
                             <td><?= renderDeleteButton($taskID); ?></td>
                         </tr>
                     <?php } ?>
@@ -123,8 +136,66 @@ function getTaskStatusLabel($taskStatus)
                 </div>
             </form>
         </div>
-
     </div>
+
+     <!-- Edit Task Form -->
+     <div class="form-popup"  id = "updateTaskForm">
+     <form action="components/update-task.php" method="POST"  class="form-container">
+        <!-- Hidden task ID -->
+        <input type="hidden" id="updateTaskID" name="task_id">
+
+        <div>
+            <label for="updateTaskName">Task Name:</label>
+            <input type="text" id="updateTaskName" name="task_name" required>
+        </div>
+
+        <div>
+            <label for="updateTaskDesc">Task Description:</label>
+            <input type="text" id="updateTaskDesc" name="task_description" required>
+        </div>
+
+        <div>
+            <label for="updateTaskStatus">Task Status:</label>
+            <select name="task_status" id="updateTaskStatus" required>
+                <option value="">-select-</option>
+                <option value="0">Not Completed</option>
+                <option value="1">Completed</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="updateShootdate">Desired Date:</label>
+            <input required type="date" name="date_due" id="updadatedate_due" min="<?php echo date('Y-m-d'); ?>" />
+        </div>
+        <button type="submit" class="btn">Update Task</button>
+        <button type="button" onclick="closeForm()" class="btn cancel">Close</button>
+        </form>
+        </div>
+
+
+        
+
+<!--This may be moved in the future for better organization -->
+<script>
+    function openForm(id, title, desc, status, date) {
+  // show the form (if it's hidden)
+  document.getElementById("updateTaskForm").style.display = "block";
+
+  /* Pre fill the form with the current row's values
+    This allows the user to see their previously entered fields
+    and they can adjust accordingly
+  */
+  document.getElementById("updateTaskID").value = id;
+  document.getElementById("updateTaskName").value = title;
+  document.getElementById("updateTaskDesc").value = desc;
+  document.getElementById("updateTaskStatus").value = status;
+  document.getElementById("updadatedate_due").value = date;
+}
+
+function closeForm() {
+  document.getElementById("updateTaskForm").style.display = "none";
+}
+</script>
 
 </body>
 
