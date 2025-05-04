@@ -2,6 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: /team-red/public/login.html");
+header("Location: ../../../public/login.html"); //must be modified if files are moved
 exit();
 ?>

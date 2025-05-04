@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $username, $email, $password);
     if ($stmt->execute()) {
-        header("Location: /team-red/public/login.html");
+        header("Location: ../../../public/login.html"); //must be modified if files are moved
     } else {
         echo "Signup failed: " . $stmt->error;
     }

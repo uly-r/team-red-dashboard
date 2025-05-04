@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashed_password)) {
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $username;
-            header("Location: /team-red/src/views/dashboard.php");
+            header("Location: ../../views/dashboard.php"); //must be modified if files are moved
             exit();
         } else {
             echo "Invalid credentials.";
