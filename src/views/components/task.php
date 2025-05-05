@@ -55,9 +55,9 @@ function renderEditButton($task) {
 
     <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
         <div>
-            <h2>Task Tracker</h2>
+            <h2>Task Tracker</h2> 
         </div>
-
+            <button type="button" onclick="openFormAdd()" style="all: revert;">Add A Task</button>
         <div>
             <!--Start of table-->
             <table class="table table-striped table-hover" id="taskTable"> <!--Add later-->
@@ -97,16 +97,12 @@ function renderEditButton($task) {
                         </tr>
                     <?php } ?>
                 </tbody>
-            </table>
-            <!--End of table-->
+            </table>  <!--End of table-->
         </div>
 
-        <br>
-
         <!-- Add Task Form -->
-        <!-- Will make this nicer later, plan on making it a pop up, instead of a on page display-->
-        <div>
-            <form action="components/add-task.php" method="POST">
+        <div class ="form-popup" id = "addTaskForm">
+            <form action="components/add-task.php" method="POST" class ="form-container">
                 <div>
                     <label for="taskName">Task Name:</label>
                     <input type="text" class="form-control" id="taskName" name="task_name" required>
@@ -132,11 +128,11 @@ function renderEditButton($task) {
                 </div>
 
                 <div style="margin-top:10px;">
-                    <button type="submit">Add Task</button>
+                <button type="submit" class="btn">Save Task</button>
+                <button type="button" onclick="closeFormAdd()" class="btn cancel">Close</button>
                 </div>
             </form>
         </div>
-    </div>
 
      <!-- Edit Task Form -->
      <div class="form-popup"  id = "updateTaskForm">
@@ -177,7 +173,17 @@ function renderEditButton($task) {
 
 <!--This may be moved in the future for better organization -->
 <script>
-    function openForm(id, title, desc, status, date) {
+
+function openFormAdd( title, desc, status, date) {
+  // show the form (if it's hidden)
+  document.getElementById("addTaskForm").style.display = "block";
+}
+
+function closeFormAdd() {
+  document.getElementById("addTaskForm").style.display = "none";
+}
+
+function openForm(id, title, desc, status, date) {
   // show the form (if it's hidden)
   document.getElementById("updateTaskForm").style.display = "block";
 
