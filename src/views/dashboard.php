@@ -107,7 +107,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="flex flex-col gap-6">
                     <?php include '../views/components/weather.php'; ?> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
                     <div class="bg-white rounded-xl p-4 shadow">News</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
-                    <div class="bg-white rounded-xl p-4 shadow">Countdown</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
+                    <?php include '../views/components/countdown.php'; ?> <!-- Countdown -->
                 </div>
             </div>
 
