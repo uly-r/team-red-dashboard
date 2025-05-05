@@ -1,3 +1,27 @@
+<?php
+require_once __DIR__ . '/../../php/includes/db_connect.php';
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch tasks and group by due date
+$tasksByDate = [];
+$sql = "SELECT title, due_date FROM tasks WHERE user_id = ? AND is_completed = 0";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+while ($row = $result->fetch_assoc()) {
+    $date = date('j', strtotime($row['due_date'])); // just the day number
+    $title = htmlspecialchars($row['title']);
+    if (!isset($tasksByDate[$date])) {
+        $tasksByDate[$date] = [];
+    }
+    $tasksByDate[$date][] = $title;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,10 +60,17 @@
                 $daysInMonth = date('t');
                 for ($i = 1; $i <= $daysInMonth; $i++) {
                     $isToday = ($i == $today);
-                    echo '<div onclick="selectDate(this)" class="h-8 flex items-center justify-center rounded-full cursor-pointer ' .
-                        ($isToday ? 'bg-blue-500 text-white' : 'hover:bg-gray-100') . '">' .
-                        $i . '</div>';
-                }                
+                    $hasTask = isset($tasksByDate[$i]);
+                    $taskTitles = $hasTask ? implode(', ', $tasksByDate[$i]) : '';
+                
+                    echo '<div 
+                        onclick="selectDate(this)" 
+                        class="h-8 flex items-center justify-center rounded-full cursor-pointer ' .
+                        ($isToday ? 'bg-blue-500 text-white ' : '') .
+                        ($hasTask ? 'bg-yellow-300 hover:bg-yellow-400 ' : 'hover:bg-gray-100') .
+                        '" title="' . htmlspecialchars($taskTitles) . '">' . $i . 
+                        '</div>';
+                }               
                 ?>
             </div>
         </div>
