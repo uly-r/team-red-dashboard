@@ -1,7 +1,6 @@
 <?php
-
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../public/login.html"); // adjust path if needed
+    header("Location: ../../public/login.html");
     exit();
 }
 require_once '../php/includes/db_connect.php';
@@ -9,76 +8,69 @@ $user_id = $_SESSION['user_id'];
 
 function renderDeleteButton($taskID)
 {
-    /*
-     this shows the delete button which when clicked, pops up an alert
-     which then the user confirms to delete their task
-     the request is then sent to delete-task.php
-*/
     return '
-        <form action="components/delete-task.php" method="POST">
+        <form action="components/delete-task.php" method="POST" style="display:inline;">
             <input type="hidden" name="task_id" value="' . htmlspecialchars($taskID) . '">
-            <button type="submit" onclick="return confirm(\'Delete this task?\');">Delete</button>
+            <button type="submit" onclick="return confirm(\'Delete this task?\');" 
+                class="text-red-500 hover:text-red-700">
+                <i class="fa-solid fa-trash"></i>
+            </button>
         </form>
     ';
 }
 
 function getTaskStatusLabel($taskStatus)
 {
-    //convert 0 or 1 to completed or not completed status
     return $taskStatus == 1 ? 'Completed' : 'Not Completed';
 }
 
-function renderEditButton($task) {
-    // Grabs the values of the current row(array) and passes them to the form
-     return '
-         <button onclick="openForm(' .
-             htmlspecialchars($task['id']) . ', \'' .
-             htmlspecialchars($task['title']) . '\', \'' .
-             htmlspecialchars($task['description']) . '\', \'' .
-             $task['is_completed'] . '\', \'' .
-             htmlspecialchars($task['due_date']) . '\')">Edit</button>';
- }
+function renderEditButton($task)
+{
+    $id = (int)$task['id'];
+    $title = json_encode($task['title']);
+    $desc = json_encode($task['description']);
+    $status = json_encode((string)$task['is_completed']); // Cast to string for form
+    $due = json_encode($task['due_date']);
 
+    return "
+        <button onclick='openForm($id, $title, $desc, $status, $due)' 
+            class='text-blue-500 hover:text-blue-700'>
+            <i class='fa-solid fa-pen'></i>
+        </button>";
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../public/assets/task-form.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/04a4e79b23.js" crossorigin="anonymous"></script>
     <title>Task page</title>
 </head>
-
-<body>
-
-    <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-6xl">
         <div>
-            <h2>Task Tracker</h2> 
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Task Tracker</h2>
         </div>
-            <button type="button" onclick="openFormAdd()" style="all: revert;">Add A Task</button>
         <div>
-            <!--Start of table-->
-            <table class="table table-striped table-hover" id="taskTable"> <!--Add later-->
-                <thead>
+            <table class="min-w-full divide-y divide-gray-200 mt-4">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col">Task Name</th>
-                        <th scope="col">Task Description</th>
-                        <th scope="col">Date Due</th>
-                        <th scope="col">Task Status</th>
-                        <th scope="col">Action</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Task Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Due Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     <?php
-                    //get the users tasks using their user_id
                     $stmt = $conn->prepare("SELECT * FROM tasks WHERE user_id = ?");
                     $stmt->bind_param("i", $user_id);
                     $stmt->execute();
                     $result = $stmt->get_result();
-
-                    //prints out tasks
                     while ($row = $result->fetch_assoc()) {
                         $taskID = $row['id'];
                         $taskName = $row['title'];
@@ -86,123 +78,109 @@ function renderEditButton($task) {
                         $dateDue = $row['due_date'];
                         $taskStatus = $row['is_completed'];
                     ?>
-                        <!-- This is the row that is printed for each task-->
                         <tr>
-                            <td id="taskName-<?= $taskID ?>"><?= htmlspecialchars($taskName) ?></td>
-                            <td id="taskDesc-<?= $taskID ?>"><?= htmlspecialchars($taskDesc) ?></td>
-                            <td id="dateDue-<?= $taskID ?>"><?= htmlspecialchars($dateDue) ?></td>
-                            <td id="taskStatus-<?= $taskID ?>"><?= getTaskStatusLabel($taskStatus); ?> </td>
-                            <td><?= renderEditButton($row);?></td> <!-- Will add this later-->
-                            <td><?= renderDeleteButton($taskID); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($row['title']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['description']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['due_date']) ?></td>
+                            <td class="px-6 py-4">
+                                <span class="inline-block px-2 py-1 text-sm rounded 
+                                <?= $row['is_completed'] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?>">
+                                    <?= getTaskStatusLabel($row['is_completed']); ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 space-x-2">
+                                <?= renderEditButton($row); ?>
+                                <?= renderDeleteButton($row['id']); ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
-            </table>  <!--End of table-->
+            </table>
         </div>
-
-        <!-- Add Task Form -->
-        <div class ="form-popup" id = "addTaskForm">
-            <form action="components/add-task.php" method="POST" class ="form-container">
+        <br>
+        <div>
+            <button onclick="openAddForm()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Add Task
+            </button>
+            <div class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50" id="addTaskForm" style="display: none;">
+                <form action="components/add-task.php" method="POST" class="bg-white p-6 rounded-xl shadow-md space-y-4 w-96">
+                    <h2 class="text-xl font-semibold">Add Task</h2>
+                    <div>
+                        <label for="taskName" class="block">Task Name:</label>
+                        <input type="text" class="w-full border rounded px-3 py-1" id="taskName" name="task_name" required>
+                    </div>
+                    <div>
+                        <label for="taskDesc" class="block">Task Description:</label>
+                        <input type="text" class="w-full border rounded px-3 py-1" id="taskDesc" name="task_description" required>
+                    </div>
+                    <div>
+                        <label for="taskStatus" class="block">Task Status:</label>
+                        <select class="w-full border rounded px-3 py-1" name="task_status" id="taskStatus" required>
+                            <option value="">-select-</option>
+                            <option value="0">Not Completed</option>
+                            <option value="1">Completed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="shootdate" class="block">Desired Date:</label>
+                        <input required type="date" name="date_due" id="shootdate" class="w-full border rounded px-3 py-1" min="<?php echo date('Y-m-d'); ?>" />
+                    </div>
+                    <div class="flex justify-between">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add</button>
+                        <button type="button" onclick="closeAddForm()" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50" id="updateTaskForm" style="display: none;">
+            <form action="components/update-task.php" method="POST" class="bg-white p-6 rounded-xl shadow-md space-y-4 w-96">
+                <h2 class="text-xl font-semibold">Edit Task</h2>
+                <input type="hidden" name="task_id" id="updateTaskID">
                 <div>
-                    <label for="taskName">Task Name:</label>
-                    <input type="text" class="form-control" id="taskName" name="task_name" required>
+                    <label for="updateTaskName" class="block">Task Name:</label>
+                    <input type="text" class="w-full border rounded px-3 py-1" id="updateTaskName" name="task_name" required>
                 </div>
-
                 <div>
-                    <label for="taskDesc">Task Description:</label>
-                    <input type="text" class="form-control" id="taskDesc" name="task_description" required>
+                    <label for="updateTaskDesc" class="block">Task Description:</label>
+                    <input type="text" class="w-full border rounded px-3 py-1" id="updateTaskDesc" name="task_description" required>
                 </div>
-
                 <div>
-                    <label for="taskStatus">Task Status:</label>
-                    <select class="form-control" name="task_status" id="taskStatus" required>
+                    <label for="updateTaskStatus" class="block">Task Status:</label>
+                    <select class="w-full border rounded px-3 py-1" name="task_status" id="updateTaskStatus" required>
                         <option value="">-select-</option>
-                        <option value="False">Not Completed</option>
-                        <option value="True">Completed</option>
+                        <option value="1">Completed</option>
+                        <option value="0">Not Completed</option>
                     </select>
                 </div>
-
                 <div>
-                    <label for="shootdate">Desired Date:</label>
-                    <input required type="date" name="date_due" id="shootdate" title="Choose your desired date" min="<?php echo date('Y-m-d'); ?>" />
+                    <label for="updadatedate_due" class="block">Due Date:</label>
+                    <input type="date" class="w-full border rounded px-3 py-1" name="date_due" id="updadatedate_due" required min="<?php echo date('Y-m-d'); ?>">
                 </div>
-
-                <div style="margin-top:10px;">
-                <button type="submit" class="btn">Save Task</button>
-                <button type="button" onclick="closeFormAdd()" class="btn cancel">Close</button>
+                <div class="flex justify-between">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+                    <button type="button" onclick="closeForm()" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400">Close</button>
                 </div>
             </form>
         </div>
-
-     <!-- Edit Task Form -->
-     <div class="form-popup"  id = "updateTaskForm">
-     <form action="components/update-task.php" method="POST"  class="form-container">
-        <!-- Hidden task ID -->
-        <input type="hidden" id="updateTaskID" name="task_id">
-
-        <div>
-            <label for="updateTaskName">Task Name:</label>
-            <input type="text" id="updateTaskName" name="task_name" required>
-        </div>
-
-        <div>
-            <label for="updateTaskDesc">Task Description:</label>
-            <input type="text" id="updateTaskDesc" name="task_description" required>
-        </div>
-
-        <div>
-            <label for="updateTaskStatus">Task Status:</label>
-            <select name="task_status" id="updateTaskStatus" required>
-                <option value="">-select-</option>
-                <option value="0">Not Completed</option>
-                <option value="1">Completed</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="updateShootdate">Desired Date:</label>
-            <input required type="date" name="date_due" id="updadatedate_due" min="<?php echo date('Y-m-d'); ?>" />
-        </div>
-        <button type="submit" class="btn">Update Task</button>
-        <button type="button" onclick="closeForm()" class="btn cancel">Close</button>
-        </form>
-        </div>
-
-
-        
-
-<!--This may be moved in the future for better organization -->
-<script>
-
-function openFormAdd( title, desc, status, date) {
-  // show the form (if it's hidden)
-  document.getElementById("addTaskForm").style.display = "block";
-}
-
-function closeFormAdd() {
-  document.getElementById("addTaskForm").style.display = "none";
-}
-
-function openForm(id, title, desc, status, date) {
-  // show the form (if it's hidden)
-  document.getElementById("updateTaskForm").style.display = "block";
-
-  /* Pre fill the form with the current row's values
-    This allows the user to see their previously entered fields
-    and they can adjust accordingly
-  */
-  document.getElementById("updateTaskID").value = id;
-  document.getElementById("updateTaskName").value = title;
-  document.getElementById("updateTaskDesc").value = desc;
-  document.getElementById("updateTaskStatus").value = status;
-  document.getElementById("updadatedate_due").value = date;
-}
-
-function closeForm() {
-  document.getElementById("updateTaskForm").style.display = "none";
-}
-</script>
-
+        <script>
+            function openForm(id, title, desc, status, date) {
+                document.getElementById("updateTaskForm").style.display = "flex";
+                document.getElementById("updateTaskID").value = id;
+                document.getElementById("updateTaskName").value = title;
+                document.getElementById("updateTaskDesc").value = desc;
+                document.getElementById("updateTaskStatus").value = status;
+                document.getElementById("updadatedate_due").value = date;
+            }
+            function closeForm() {
+                document.getElementById("updateTaskForm").style.display = "none";
+            }
+            function openAddForm() {
+                document.getElementById("addTaskForm").style.display = "flex";
+            }
+            function closeAddForm() {
+                document.getElementById("addTaskForm").style.display = "none";
+            }
+        </script>
+    </div>
 </body>
-
 </html>

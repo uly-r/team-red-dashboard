@@ -94,7 +94,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="grid grid-cols-3 gap-6 p-5">
                 <!-- Left Column -->
                 <div class="flex flex-col gap-6">
-                    <?php include '../views/components/task.php'; ?>
+                <?php include '../views/components/task.php'; ?>
                     <?php include '../views/components/quicklinks_card.php'; ?>
                     <!-- <div class="bg-white rounded-xl p-4 shadow">Quick Links</div> -->
                 </div>
