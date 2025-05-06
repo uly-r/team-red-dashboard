@@ -1,13 +1,11 @@
-
-
-  * {
+* {
     box-sizing: border-box;
   }
-  
+
   /* Edit popup form styling 
   The form pops up at the bottom left (This may be changed)
   */
-  
+
   .form-popup {
     display: none;
     position: fixed;
@@ -19,7 +17,7 @@
     padding: 10px;
     max-width: 300px;
   }
-  
+
   /* Input fields */
   .form-container input[type="text"],
   .form-container input[type="date"],
@@ -30,13 +28,13 @@
     border: 1px solid #ccc;
     background: #f9f9f9;
   }
-  
+
   .form-container input:focus,
   .form-container select:focus {
     background-color: #eee;
     outline: none;
   }
-  
+
   /* Buttons */
   .btn {
     background-color: #04AA6D;
@@ -48,11 +46,11 @@
     margin-bottom: 10px;
     opacity: 0.9;
   }
-  
+
   .btn.cancel {
     background-color: red;
   }
-  
+
   .btn:hover {
     opacity: 1;
   }
