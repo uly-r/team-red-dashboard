@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Redirect to avoid resubmission
-  
+    header("Location: notes.php");
+    exit;
 }
 
 // Handle deletion
@@ -25,6 +26,8 @@ if (isset($_GET['delete'])) {
     $stmt->bind_param("ii", $_GET['delete'], $_SESSION['user_id']);
     $stmt->execute();
     $_SESSION['note_message'] = "Note deleted successfully!";
+    header("Location: notes.php");
+    exit;
 }
 
 // Fetch notes
@@ -56,17 +59,26 @@ if (isset($_GET['edit'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    
     <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
+        <!-- Back to Dashboard link added here -->
+        <div class="flex justify-between w-full mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Notes</h2>
+            <a href="dashboard.php" class="text-blue-600 hover:text-blue-800 flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
 
-        <h2 class="text-xl font-bold text-gray-800 m-5 ml-0">Notes</h2>
         <!-- Flash Messages -->
         <?php if (isset($_SESSION['note_message'])): ?>
             <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded w-full">
                 <?= $_SESSION['note_message']; unset($_SESSION['note_message']); ?>
             </div>
         <?php endif; ?>
-        <div class="flex flex-col lg:flex-row gap-8">
+
+        <div class="flex flex-col lg:flex-row gap-8 w-full">
             <!-- Note Form -->
             <div class="lg:w-1/3">
                 <div class="bg-white rounded-lg shadow-xl p-6 sticky top-4">
@@ -110,7 +122,7 @@ if (isset($_GET['edit'])) {
             <!-- Notes List -->
             <div class="lg:w-2/3">
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-gray-800">Your Notes (Demo)</h1>
+                    <h1 class="text-2xl font-bold text-gray-800">Your Notes</h1>
                     <span class="text-sm text-gray-600"><?= count($notes) ?> note(s)</span>
                 </div>
                 
@@ -129,13 +141,12 @@ if (isset($_GET['edit'])) {
                                             <?= htmlspecialchars($note['title']) ?>
                                         </h3>
                                         <div class="flex space-x-3">
-                                            <!-- <a href="dashboard.php?edit=<?= $note['id'] ?>$notes" 
+                                            <a href="notes.php?edit=<?= $note['id'] ?>" 
                                                class="text-blue-500 hover:text-blue-700"
                                                title="Edit">
                                                 <i class="fas fa-edit"></i>
-                                            </a> -->
-                                            
-                                            <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
+                                            </a>
+                                            <a href="notes.php?delete=<?= $note['id'] ?>"
                                                class="text-red-500 hover:text-red-700"
                                                title="Delete"
                                                onclick="return confirm('Delete this note permanently?')">
