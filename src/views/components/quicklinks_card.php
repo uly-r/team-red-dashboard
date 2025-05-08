@@ -16,13 +16,13 @@
       <button id="addLinkBtn" class="text-blue-500 text-xl">+</button>
     </div>
 
-    <div id="quickLinksGrid" class="grid grid-cols-3 gap-4">
+    <div id="quickLinksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
       <?php if (!empty($links)): ?>
         <?php foreach ($links as $link): ?>
 
           <div class="flex items-center gap-2">
             <a href="<?= htmlspecialchars($link['url']) ?>" target="_blank" class="bg-gray-100 hover:bg-gray-200 p-3 rounded flex items-center gap-2 shadow-sm" title="<?= htmlspecialchars($link['title']) ?>">
-              <i class="<?= htmlspecialchars($link['icon_class']) ?>"></i>
+            <i class="<?= htmlspecialchars($link['icon_class']) ?> <?= getIconStyles($link['icon_class']) ?>"></i>
             </a>
 
             <form action="/team-red/src/php/functions/quicklinks/delete_link.php" method="post" class="flex items-center">
@@ -54,6 +54,14 @@
           <option value="fa-solid fa-envelope">Email</option>
           <option value="fa-brands fa-google">Google</option>
           <option value="fa-solid fa-book">Book</option>
+          <option value="fa-brands fa-github">GitHub</option>
+          <option value="fa-solid fa-calendar-days">Calendar</option>
+          <option value="fa-solid fa-file-word">Word</option>
+          <option value="fa-brands fa-linkedin">LinkedIn</option>
+          <option value="fa-brands fa-whatsapp">WhatsApp</option>
+          <option value="fa-brands fa-discord">Discord</option>
+          <option value="fa-brands fa-x-twitter">X (Twitter)</option>
+          <option value="fa-brands fa-reddit">Reddit</option>
         </select>
         <div class="flex justify-end gap-2">
           <button type="button" id="cancelBtn" class="text-red-500">Cancel</button>
