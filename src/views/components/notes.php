@@ -55,102 +55,81 @@ if (isset($_GET['edit'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    
-    <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
+<body class="bg-gray-50">
 
-        <h2 class="text-xl font-bold text-gray-800 m-5 ml-0">Notes</h2>
-        <!-- Flash Messages -->
-        <?php if (isset($_SESSION['note_message'])): ?>
-            <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded w-full">
-                <?= $_SESSION['note_message']; unset($_SESSION['note_message']); ?>
-            </div>
-        <?php endif; ?>
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Note Form -->
-            <div class="lg:w-1/3">
-                <div class="bg-white rounded-lg shadow-xl p-6 sticky top-4">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">
-                        <?= $editing_note ? 'Edit Note' : 'New Note' ?>
-                    </h2>
-                    <form action="" method="POST">
-                        <?php if ($editing_note): ?>
-                            <input type="hidden" name="note_id" value="<?= $editing_note['id'] ?>">
-                        <?php endif; ?>
-                        
-                        <div class="mb-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                            <input type="text" id="title" name="title" 
-                                   value="<?= htmlspecialchars($editing_note['title'] ?? '') ?>"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                   required>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                            <textarea id="content" name="content" rows="8"
-                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                      required><?= htmlspecialchars($editing_note['content'] ?? '') ?></textarea>
-                        </div>
-                        
-                        <button type="submit" name="<?= $editing_note ? 'update_note' : 'add_note' ?>"
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
-                            <?= $editing_note ? 'Update' : 'Save' ?>
-                        </button>
-                        
-                        <?php if ($editing_note): ?>
-                            <a href="notes.php" class="block mt-2 text-center text-sm text-gray-600 hover:text-gray-800">
-                                Cancel
-                            </a>
-                        <?php endif; ?>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Notes List -->
-            <div class="lg:w-2/3">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-gray-800">Your Notes (Demo)</h1>
-                    <span class="text-sm text-gray-600"><?= count($notes) ?> note(s)</span>
-                </div>
-                
-                <?php if (empty($notes)): ?>
-                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
-                        <i class="fas fa-clipboard text-4xl text-gray-300 mb-3"></i>
-                        <p class="text-gray-600">No notes yet. Create your first one!</p>
-                    </div>
-                <?php else: ?>
-                    <div class="grid gap-4">
-                        <?php foreach ($notes as $note): ?>
-                            <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-md transition">
-                                <div class="p-5">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <h3 class="text-lg font-semibold text-gray-800">
-                                            <?= htmlspecialchars($note['title']) ?>
-                                        </h3>
-                                        <div class="flex space-x-3">
-                                            <!-- <a href="dashboard.php?edit=<?= $note['id'] ?>$notes" 
-                                               class="text-blue-500 hover:text-blue-700"
-                                               title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a> -->
-                                            
-                                            <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
-                                               class="text-red-500 hover:text-red-700"
-                                               title="Delete"
-                                               onclick="return confirm('Delete this note permanently?')">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <p class="text-gray-600 whitespace-pre-wrap"><?= htmlspecialchars($note['content']) ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
+<div class="bg-white rounded-xl p-4 shadow w-full max-w-5xl mx-auto mt-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Your Notes</h1>
+        <button onclick="document.getElementById('noteModal').classList.remove('hidden')" 
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition">
+            + New Note
+        </button>
     </div>
+
+    <!-- Flash Message -->
+    <?php if (isset($_SESSION['note_message'])): ?>
+        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            <?= $_SESSION['note_message']; unset($_SESSION['note_message']); ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Notes Display -->
+    <?php if (empty($notes)): ?>
+        <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+            <i class="fas fa-clipboard text-4xl text-gray-300 mb-3"></i>
+            <p class="text-gray-600">No notes yet. Click "New Note" to add one!</p>
+        </div>
+    <?php else: ?>
+        <div class="grid gap-4">
+            <?php foreach ($notes as $note): ?>
+                <div class="bg-white rounded-lg shadow p-4 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($note['title']) ?></h3>
+                        <div class="flex space-x-3">
+                            <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
+                               class="text-red-500 hover:text-red-700"
+                               title="Delete"
+                               onclick="return confirm('Delete this note permanently?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 whitespace-pre-wrap"><?= htmlspecialchars($note['content']) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<!-- MODAL -->
+<div id="noteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg relative">
+        <button onclick="document.getElementById('noteModal').classList.add('hidden')"
+                class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">New Note</h2>
+        <form action="" method="POST">
+            <div class="mb-4">
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <input type="text" id="title" name="title"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                       required>
+            </div>
+
+            <div class="mb-4">
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                <textarea id="content" name="content" rows="6"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                          required></textarea>
+            </div>
+
+            <button type="submit" name="add_note"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition">
+                Save Note
+            </button>
+        </form>
+    </div>
+</div>
+
 </body>
+
 </html>
