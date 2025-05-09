@@ -5,34 +5,50 @@ session_start();
 $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (
-        isset($_POST['task_name'], $_POST['task_description'], $_POST['date_due'], $_POST['task_status'])
-    ) {
-        $title = $_POST['task_name'];
-        $desc = $_POST['task_description'];
-        $due_date = $_POST['date_due'];
-        $is_completed = $_POST['task_status'] === 'True' ? 1 : 0;
 
-        $stmt = $conn->prepare("INSERT INTO tasks (user_id, title, description, due_date, is_completed) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssi", $user_id, $title, $desc, $due_date, $is_completed);
+    //Add or remove fields more easily
+    $fields = [
+        //Left is the actual name of the column, middle is the values from _POST, right is default values (error case) 
+        'user_id'      => $user_id,
+        'title'        => $_POST['task_name'] ?? 'dflt',
+        'description'  => $_POST['task_description'] ?? 'dflt',
+        'due_date'     => $_POST['date_due'] ?? 'dflt',
+        'is_completed' => $_POST['task_status'] ?? 0,
+        'task_priority'=> $_POST['taskPriority'] ?? 1
+    ];
 
-        if ($stmt->execute()) {
+    //This gets the key of the array, so the left side of $fields
+    $columns = array_keys($fields);
+    
+    //Creates an array of '?' for the size of $fields
+    $placeholders = array_fill(0, count($fields), '?');
 
-           /*
-            this refreshes and redirects back to the task page, this may be changed since its hard coded
-           */
+    //extracts the values of the array (right hand of $fields (information from _POST))
+    $values = array_values($fields);
 
-           header("Location: ../dashboard.php");
-           exit();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-    } else {
-        echo "<script>
-                alert('An Error occurred.');
-              </script>";
+    //empty string, using for binding 
+    $types = '';
+    foreach ($values as $value) {
+        $types .= is_numeric($value) ? 'i' : 's';   //May need to be changed if more types are added
     }
+
+    //makes an SQL stmt with the column names, and the amount of placeholders from earlier
+    $sql = "INSERT INTO tasks (" . implode(", ", $columns) . ") VALUES (" . implode(", ", $placeholders) . ")";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    //types is the expected type ex: isssii,  "..." unpacks the information from values
+    $stmt->bind_param($types, ...$values);
+
+   if ($stmt->execute()) {
+    header("Location: ../dashboard.php");
+    exit();
+} else {
+    echo "<script>alert('An error occurred. Please try again later.');</script>"; 
+}
+    $stmt->close();
 }
 ?>
