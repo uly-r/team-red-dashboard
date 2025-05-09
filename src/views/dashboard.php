@@ -16,16 +16,16 @@ if (!isset($_SESSION['user_id'])) {
     <title>Personal Dashboard</title>
 </head>
 
-<body>
-    <div class="flex">
-        <!-- Side bar-->
+<body class="bg-cream h-screen w-full">
 
-        <div class="bg-gray h-dvh p-5 flex flex-col items-center justify-start">
-
-            <div class="relative" style="margin-bottom: 80px;">
+       
+            <!--  -->
+            <div class="flex justify-between items-center mb-6 w-full p-5">
+                <!-- Start Icon -->
+                <div class="relative">
                 <button class="text-gray-600 p-3" onclick="toggleDropdown()">
                     <!-- Profile icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
                 </button>
@@ -42,46 +42,8 @@ if (!isset($_SESSION['user_id'])) {
                     <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
                     <a href="../php/auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                 </div>
-            </div>
-
-
-            <aside>
-                <!-- icons -->
-
-                <div class="flex flex-col gap-8 items-center">
-
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                        </svg>
-                    </div>
-                </div>
-
-            </aside>
-        </div>
-
-        <div id="mainGrid" class="bg-cream h-screen w-full">
-            <!-- Header -->
-
-            <div class="flex justify-between items-center mb-6 w-full p-5">
+            </div><!-- Finish Icon --> 
+                <!-- Header -->
                 <h1 class="text-2xl font-semibold text-gray-800" id="Header">Personal Dashboard</h1>
                 <div class="flex gap-5">
                     <button class="text-gray-800 p-3">
@@ -131,10 +93,7 @@ if (!isset($_SESSION['user_id'])) {
                     <?php include '../views/components/countdown.php'; ?> <!-- Countdown -->
                 </div>
             </div>
-
-        </div>
-    </div>
-
+`
     <script src="../../src/js/weather.js"></script>
     <script src="../../src/js/quicklink.js"></script>
     <script src="../../src/js/settings_dropdown.js"></script>
