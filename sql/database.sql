@@ -28,6 +28,7 @@ CREATE TABLE tasks (
     description TEXT,
     due_date DATE,
     is_completed BOOLEAN DEFAULT FALSE,
+    task_priority INT
  
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
