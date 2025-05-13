@@ -98,13 +98,14 @@ if (isset($_GET['edit'])) {
                         $is_truncated = strlen($content) > $max_length;
                         $truncated_content = $is_truncated ? substr($content, 0, $max_length) . '...' : $content;
                         ?>
-                        <div class="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-lg transition-transform transform hover:scale-[1.02] note-card">
+                        <div
+                            class="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-lg transition-transform transform hover:scale-[1.02] note-card">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-lg font-bold text-gray-800 truncate w-5/6"><?= htmlspecialchars($note['title']) ?></h3>
-                                <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
-                                    class="text-red-500 hover:text-red-700"
-                                    title="Delete"
-                                    onclick="return confirm('Delete this note permanently?')">
+                                <h3 class="text-lg font-bold text-gray-800 truncate w-5/6">
+                                    <?= htmlspecialchars($note['title']) ?>
+                                </h3>
+                                <a href="dashboard.php?delete=<?= $note['id'] ?>#notes" class="text-red-500 hover:text-red-700"
+                                    title="Delete" onclick="return confirm('Delete this note permanently?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -116,32 +117,42 @@ if (isset($_GET['edit'])) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            <?php endif; ?>
+        </div>
 
-                <!-- Full View Content (Hidden by Default) -->
-                <div id="fullViewContent" class="hidden">
-                    <!-- Close Fullscreen Button -->
-                    <button id="closeFullscreenBtn"
-                        onclick="toggleFullView()"
-                        class="fixed top-4 right-6 z-50 bg-white px-3 py-1 rounded shadow text-gray-700 hover:text-black font-bold text-xl">
-                        × Close
-                    </button>
+        <!-- FULL VIEW MODAL: Always included -->
+        <div id="fullViewModal" class="fixed inset-0 bg-white overflow-auto z-50 hidden">
+            <!-- Close Button -->
+            <button onclick="toggleFullView()"
+                class="fixed top-4 right-6 z-50 bg-gray-100 px-4 py-2 rounded shadow text-gray-700 hover:text-black font-semibold text-lg">
+                × Close
+            </button>
+
+            <div class="max-w-5xl mx-auto p-6 mt-14">
+                <?php if (empty($notes)): ?>
+                    <div class="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <i class="fas fa-clipboard text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-600">No notes yet. Click "New Note" to add one!</p>
+                    </div>
+                <?php else: ?>
                     <?php foreach ($notes as $note): ?>
                         <div class="bg-white rounded-lg shadow p-6 mb-4">
                             <h3 class="text-xl font-semibold text-gray-800 mb-2"><?= htmlspecialchars($note['title']) ?></h3>
-                            <p class="text-gray-600 whitespace-pre-wrap w-full break-words"><?= htmlspecialchars($note['content']) ?></p>
+                            <p class="text-gray-600">
+                                <?= htmlspecialchars($note['content']) ?>
+                            </p>
                             <div class="flex space-x-3 mt-4">
-                                <a href="dashboard.php?delete=<?= $note['id'] ?>#notes"
-                                    class="text-red-500 hover:text-red-700"
-                                    title="Delete"
-                                    onclick="return confirm('Delete this note permanently?')">
+                                <a href="dashboard.php?delete=<?= $note['id'] ?>#notes" class="text-red-500 hover:text-red-700"
+                                    title="Delete" onclick="return confirm('Delete this note permanently?')">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
+
 
     </div>
 
@@ -174,21 +185,8 @@ if (isset($_GET['edit'])) {
 
     <script>
         function toggleFullView() {
-            const container = document.getElementById("notesContainer");
-            const cardView = container.querySelector(".card-view");
-            const fullViewContent = document.getElementById("fullViewContent");
-
-            if (container.classList.contains("fixed")) {
-                // Exit full view
-                container.classList.remove("fixed", "inset-0", "z-50", "bg-white", "p-6", "overflow-auto");
-                cardView.classList.remove("hidden");
-                fullViewContent.classList.add("hidden");
-            } else {
-                // Enter full view
-                container.classList.add("fixed", "inset-0", "z-50", "bg-white", "p-6", "overflow-auto");
-                cardView.classList.add("hidden");
-                fullViewContent.classList.remove("hidden");
-            }
+            const modal = document.getElementById("fullViewModal");
+            modal.classList.toggle("hidden");
         }
     </script>
 
