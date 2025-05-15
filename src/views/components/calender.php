@@ -32,7 +32,7 @@ while ($row = $result->fetch_assoc()) {
 </head>
 
 <body>
-    <div class="bg-white rounded-xl p-4 shadow flex flex-col items-start">
+    <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl flex flex-col items-start transition hover:shadow-2xl hover:border-slate-400">
         <div class="calendar w-full">
             <h2 class="text-xl font-bold mb-2">Calendar</h2>
             <div class="flex justify-between items-center mb-4">

@@ -16,7 +16,8 @@ if (!isset($_SESSION['user_id'])) {
     <title>Personal Dashboard</title>
 </head>
 
-<body class="bg-cream h-screen w-full">
+<body class="bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 min-h-screen text-gray-800">
+
 
     <div class="flex justify-between items-center mb-6 w-full p-5">
         <!-- Start Icon -->
@@ -93,7 +94,6 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Right Column -->
         <div class="flex flex-col gap-6">
             <?php include '../views/components/weather.php'; ?> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
-            <div class="bg-white rounded-xl p-4 shadow">News</div> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
             <?php include '../views/components/countdown.php'; ?> <!-- Countdown -->
         </div>
     </div>
