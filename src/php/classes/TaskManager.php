@@ -44,13 +44,14 @@ class TaskManager {
         return $success;
     }
 
-    public function deleteTask($task_id) {
-        // delete if it belongs to the logged-in user
-        $stmt = $this->conn->prepare("DELETE FROM tasks WHERE id = ? AND user_id = ?");
-        $stmt->bind_param("ii", $task_id, $this->user_id);
-        $stmt->execute();
-        $stmt->close();
-    }
+  public function deleteTask($task_id) {
+    $stmt = $this->conn->prepare("DELETE FROM tasks WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $task_id, $this->user_id);
+    $stmt->execute();
+    $deleted = $stmt->affected_rows > 0;    //checks to see if something was deleted or not
+    $stmt->close();
+    return $deleted;   //returns the value true or false
+        }
 
     public function updateTask($post) {
         if (!isset($post['task_id'])) return false;
@@ -99,6 +100,27 @@ class TaskManager {
     public function fetchUserTasks() {
         // gets all the data from the logged in user
         $stmt = $this->conn->prepare("SELECT * FROM tasks WHERE user_id = ?");
+        $stmt->bind_param("i", $this->user_id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    public function fetchUserTasksByFilter($filter = 'all') {
+        //switch is used by the script in view mode to execute the filter
+        switch ($filter) {
+            case 'completed':
+                $sql = "SELECT * FROM tasks WHERE user_id = ? AND is_completed = 1";
+                break;
+            case 'not_completed':
+                $sql = "SELECT * FROM tasks WHERE user_id = ? AND is_completed = 0";
+                break;
+            default:
+                $sql = "SELECT * FROM tasks WHERE user_id = ?";
+                break;
+        }
+
+        //executes the corresponding statment
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $this->user_id);
         $stmt->execute();
         return $stmt->get_result();

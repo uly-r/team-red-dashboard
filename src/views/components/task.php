@@ -2,10 +2,6 @@
 require_once __DIR__ . '/../../php/includes/db_connect.php';
 require_once __DIR__ . '/../../php/classes/TaskManager.php';
 require_once __DIR__ . '/../../php/classes/TaskRenderer.php';
-
-$user_id = $_SESSION['user_id'];
-$taskManager = new TaskManager($conn, $user_id);
-$tasks = $taskManager->fetchUserTasks();
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +22,13 @@ $tasks = $taskManager->fetchUserTasks();
 
     <div id="taskTableWrapper" class="max-h-96 overflow-y-auto border border-gray-200 rounded-md transition-all duration-300">
         <button id="closeFullscreenBtn" onclick="toggleFullTable()" class="hidden mb-4 text-gray-700 hover:text-black font-bold text-xl">&times; Close View Mode</button>
+        <div id="taskFilterTabs" class="hidden mb-4 flex gap-4">
+             <button onclick="openAddForm()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"> Add Task</button>
+             <button onclick="setFilter('all')" class="btn">View All</button>
+             <button onclick="setFilter('completed')" class="btn">Completed</button>
+             <button onclick="setFilter('not_completed')" class="btn">Not Completed</button>
+        </div>
+
         <table class="min-w-full divide-y divide-gray-200 mt-4">
             <thead class="bg-gray-50">
                 <tr>
@@ -37,32 +40,14 @@ $tasks = $taskManager->fetchUserTasks();
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <?php while ($row = $tasks->fetch_assoc()): ?>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($row['title']) ?></td>
-                        <td class="px-6 py-4"><?= htmlspecialchars($row['description']) ?></td>
-                        <td class="px-6 py-4"><?= htmlspecialchars($row['due_date']) ?></td>
-                        <td class="px-6 py-4">
-                            <span class="inline-block px-2 py-1 text-sm rounded 
-                                <?= $row['is_completed'] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?>">
-                                <?= TaskRenderer::getStatusLabel($row['is_completed']); ?>
-                            </span>
-                        </td>
-                        <td class="px-6 py-4"><?= TaskRenderer::getPriorityLabel($row['task_priority']) ?></td>
-                        <td class="px-6 py-4 space-x-2">
-                            <?= TaskRenderer::renderEditButton($row); ?>
-                            <?= TaskRenderer::renderDeleteButton($row['id']); ?>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+        <tbody id="taskTableBody" class="bg-white divide-y divide-gray-200">
+                <?php include __DIR__ . '/render-task-table.php'; ?>
             </tbody>
         </table>
     </div>
 
-
-<!-- include the add and edit form, and the scripts needed-->
 <?php include 'task-modals-and-scripts.php'; ?>
 </div>
 </body>
 </html>
+
