@@ -2,111 +2,63 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .signup-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
-
-        .signup-container h2 {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .signup-button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        .signup-button:hover {
-            background-color: #45a049;
-        }
-
-        .login-link {
-            margin-top: 1rem;
-            display: block;
-            color: #555;
-        }
-
-        .login-link a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Personal Dashboard</title>
+    <link href="../public/assets/styles.css" rel="stylesheet" />
 </head>
 
-<body>
-    <div class="signup-container">
-        <h2>Create an Account</h2>
-        <form action="../src/php/auth/signup.php" method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+<body
+    class="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 via-zinc-700 to-neutral-700 text-white">
+
+    <div class="backdrop-blur-md bg-white/10 p-8 rounded-xl shadow-xl max-w-md w-full text-center border border-white/10
+            ring-1 ring-white/20 transition-transform duration-300 hover:scale-[1.01]">
+
+        <h2 class="text-3xl font-bold mb-6">Create an Account</h2>
+
+        <form action="../src/php/auth/signup.php" method="POST" class="space-y-4 text-left">
+            <!-- Username -->
+            <div>
+                <label for="username" class="block mb-1 text-sm font-medium text-gray-200">Username</label>
+                <input type="text" id="username" name="username" required
+                    class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block mb-1 text-sm font-medium text-gray-200">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block mb-1 text-sm font-medium text-gray-200">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
-            <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <!-- Confirm Password -->
+            <div>
+                <label for="confirm_password" class="block mb-1 text-sm font-medium text-gray-200">Confirm
+                    Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required
+                    class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
-            <button type="submit" class="signup-button">Sign Up</button>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold transition duration-200">
+                Sign Up
+            </button>
         </form>
-        <p class="login-link">Already have an account? <a href="login.html">Login</a></p>
+
+        <p class="mt-4 text-sm text-gray-300">
+            Already have an account?
+            <a href="login.html" class="text-blue-400 hover:underline">Login</a>
+        </p>
     </div>
+
 </body>
 
 </html>

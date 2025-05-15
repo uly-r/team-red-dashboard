@@ -10,7 +10,7 @@
 
 <body>
 
-    <div class="bg-white rounded-xl p-4 shadow flex flex-col items-center">
+    <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-6 shadow-xl flex flex-col items-center transition hover:shadow-2xl hover:border-slate-400">
         <form class="m-4 font-bold text-xl mb-8" id="weatherForm">
             <input type="text" id="cityInput" placeholder="Enter City:" class="w-50 p-2">
             <button type="submit" class="bg-stone-950 text-white px-4 py-2 rounded">Go</button>
@@ -24,7 +24,3 @@
 </body>
 
 </html>
-
-<?php
-
-?>

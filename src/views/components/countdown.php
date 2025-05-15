@@ -22,7 +22,7 @@ if ($user_id) {
 }
 ?>
 
-<div class="bg-white rounded-xl p-4 shadow">
+<div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl transition hover:shadow-2xl hover:border-slate-400">
 <div class="bg-white rounded-xl p-4 shadow-md w-full h-full">
 <h3 class="text-lg font-bold mb-2">Next Task Countdown</h3>
     <?php if (!empty($tasks)): ?>

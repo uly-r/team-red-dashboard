@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div class="bg-white rounded-xl p-4 shadow">
+  <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl transition hover:shadow-2xl hover:border-slate-400">
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-lg font-semibold">Quick Links</h2>
       <button id="addLinkBtn" class="text-blue-500 text-xl">+</button>
