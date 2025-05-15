@@ -18,7 +18,7 @@ $tasks = $taskManager->fetchUserTasks();
     <title>Task page</title>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
-<div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl shadow-xl p-8 w-full max-w-6xl transition hover:shadow-2xl hover:border-slate-400">
+<div class="bg-white/80 border border-slate-300 rounded-2xl shadow-xl p-8 w-full max-w-6xl transition hover:shadow-2xl hover:border-slate-400">
     <div>
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Task Tracker</h2>
         <button onclick="toggleFullTable()" class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Toggle View Mode</button>

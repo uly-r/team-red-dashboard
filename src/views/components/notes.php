@@ -59,7 +59,7 @@ if (isset($_GET['edit'])) {
 
 <body class="bg-gray-50">
 
-    <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl w-full max-w-5xl mx-auto mt-6 transition hover:shadow-2xl hover:border-slate-400">
+    <div class="bg-white/80 border border-slate-300 rounded-2xl p-4 shadow-xl w-full max-w-5xl mx-auto mt-6 transition hover:shadow-2xl hover:border-slate-400">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Your Notes</h1>
             <div class="flex space-x-2">
