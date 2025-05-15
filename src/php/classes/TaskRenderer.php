@@ -32,15 +32,14 @@ class TaskRenderer {
     }
 
     // delete button, pops a confirmation for the user before deletion
-    public static function renderDeleteButton($taskID) {
-        return '
-            <form action="components/delete-task.php" method="POST" style="display:inline;">
-                <input type="hidden" name="task_id" value="' . htmlspecialchars($taskID) . '">
-                <button type="submit" onclick="return confirm(\'Delete this task?\');" 
-                    class="text-red-500 hover:text-red-700">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </form>';
+   public static function renderDeleteButton($taskID) {
+    return 
+    '<form onsubmit="handleDelete(event)" style="display:inline;">
+        <input type="hidden" name="task_id" value="' . htmlspecialchars($taskID) . '">
+        <button type="submit" class="text-red-500 hover:text-red-700">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    </form>';
     }
 }
 ?>
