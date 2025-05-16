@@ -88,7 +88,6 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
             <a href="login.html" class="text-blue-400 hover:underline">Login</a>
         </p>
     </div>
- <script src="../src/js/signup.js"></script>
 </body>
 
 </html>
