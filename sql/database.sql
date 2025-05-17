@@ -43,5 +43,3 @@ CREATE TABLE notes (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-INSERT INTO users (username, email, password) 
-VALUES ('testuser', 'test@example.com', 'password');
