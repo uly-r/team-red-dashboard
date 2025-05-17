@@ -65,6 +65,8 @@ if (!isset($_SESSION['user_id'])) {
         <div class="flex flex-col gap-6">
             <?php include '../views/components/weather.php'; ?> <!-- Customize width with Tailwind (e.g., w-full, w-3/4, etc.) -->
             <?php include '../views/components/countdown.php'; ?> <!-- Countdown -->
+            <?php include '../views/components/recommended_task.php'; ?>
+
         </div>
     </div>
     `
