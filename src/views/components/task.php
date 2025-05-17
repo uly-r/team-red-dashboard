@@ -17,13 +17,13 @@ require_once __DIR__ . '/../../php/classes/TaskRenderer.php';
 <div class="bg-white/80 border border-slate-300 rounded-2xl shadow-xl p-8 w-full max-w-6xl transition hover:shadow-2xl hover:border-slate-400">
     <div>
         <h2 class="text-2xl font-bold text-gray-800 mb-6">Task Tracker</h2>
-        <button onclick="toggleFullTable()" class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Toggle View Mode</button>
+        <button onclick="toggleFullTable()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition mb-3">Toggle View Mode</button>
     </div>
 
     <div id="taskTableWrapper" class="max-h-96 overflow-y-auto border border-gray-200 rounded-md transition-all duration-300">
         <button id="closeFullscreenBtn" onclick="toggleFullTable()" class="hidden mb-4 text-gray-700 hover:text-black font-bold text-xl">&times; Close View Mode</button>
         <div id="taskFilterTabs" class="hidden mb-4 flex gap-4">
-             <button onclick="openAddForm()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"> Add Task</button>
+             <button onclick="openAddForm()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"> Add Task</button>
              <button onclick="setFilter('all')" class="btn">View All</button>
              <button onclick="setFilter('completed')" class="btn">Completed</button>
              <button onclick="setFilter('not_completed')" class="btn">Not Completed</button>
