@@ -67,7 +67,7 @@ while ($row = $result->fetch_assoc()) {
                         onclick="selectDate(this)" 
                         class="h-8 flex items-center justify-center rounded-full cursor-pointer ' .
                         ($isToday ? 'bg-blue-500 text-white ' : '') .
-                        ($hasTask ? 'bg-yellow-300 hover:bg-yellow-400 ' : 'hover:bg-gray-100') .
+                        ($hasTask ? 'bg-yellow-300 hover:bg-yellow-400 ' : 'hover:bg-yellow-100') .
                         '" title="' . htmlspecialchars($taskTitles) . '">' . $i . 
                         '</div>';
                 }               

@@ -2,6 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: ../../../public/login.html"); //must be modified if files are moved
+header("Location: ../../../public/landpage.html"); //must be modified if files are moved
 exit();
 ?>
