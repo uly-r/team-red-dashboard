@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $validator = new Validate();
 
-    // Validate input
+    // validate input
     if (!$validator->validateSignUp($_POST)) {
         $errors = $validator->getErrors();
     } else {
@@ -18,12 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         //try to make acc
         if (!$signup->createAccount($_POST)) {
-            $signupError = $signup->getError(); // Should return a string
-            if ($signupError) {
-                $errors['general'] = $signupError;
+            $signupError = $signup->getError(); 
+            if ($signupError) { //if there is an error
+                $errors['general'] = $signupError; //prints generic error message for database(either acc exists or sign up failed)
             }
         } else {
-            header("Location: login.html");
+            header("Location: login.html"); //otherwise redirect, this may change if files are moved
             exit;
         }
     }
