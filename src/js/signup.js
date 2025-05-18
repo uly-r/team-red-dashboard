@@ -42,7 +42,7 @@ function isValidUsername(usernameValue) {
         setError(username, 'Username must be greater than 3 characters.');
         return false;
     } else if (usernameValue.length > 12) {
-        setError(username, 'Username must be greater than 3 characters.');
+        setError(username, 'Username can not be greater than 12 characters.');
         return false;
     }
 
