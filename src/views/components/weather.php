@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../../public/assets/styles.css" rel="stylesheet">
-    <title>Document</title>
+    <title>Personal Dashboard - Weather</title>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
             <button type="submit" class="bg-stone-950 text-white px-4 py-2 rounded">Go</button>
         </form>
         <div class="flex flex-col gap-4 text-xl items-center" id="card">
-            
+            <!-- Weather info will be dynamically injected here -->
         </div>
     </div>
 

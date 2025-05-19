@@ -2,19 +2,22 @@
 require_once '../../src/php/includes/db_connect.php';
 session_start();
 
+// Check if the user is logged in; if not, redirect to login page
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../public/login.html");
     exit();
 }
-
+// Get the user ID 
 $user_id = $_SESSION['user_id'];
 
+// Prepare and execute SQL statement to retrieve user data
 $stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $user_id); // Bind user ID as integer
 $stmt->execute();
 $result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$user = $result->fetch_assoc(); // Fetch user data
 
+// If user not found in database, display message and stop execution
 if (!$user) {
     echo "User not found.";
     exit();
@@ -30,14 +33,6 @@ if (!$user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../public/assets/styles.css" rel="stylesheet">
     <title>Personal Dashboard - Edit Profile</title>
-    <script>
-        function enableEdit(fieldId) {
-            const input = document.getElementById(fieldId);
-            input.removeAttribute('readonly');
-            input.classList.remove('bg-gray-100');
-            input.focus();
-        }
-    </script>
 </head>
 
 <body class="h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-zinc-700 to-neutral-700 text-white">
