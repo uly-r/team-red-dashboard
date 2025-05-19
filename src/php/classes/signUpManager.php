@@ -36,7 +36,7 @@ class signUpManager {
         $this->error = "Username already exists";
         return false;
     } else if ($this->checkIfEmailExist($email)) {
-        $this->error = "Sign up failed";
+        $this->error = "Sign up failed";    //Dont return "Email exist", gives generic response
         return false;
     } else {
         $stmt = $this->conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");

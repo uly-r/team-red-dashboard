@@ -1,18 +1,31 @@
 <?php
-session_start();
-
-$formError = '';
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once __DIR__ . '/../src/php/includes/db_connect.php';
 require_once __DIR__ . '/../src/php/classes/signUpManager.php';
+require_once __DIR__ . '/../src/php/classes/Validate.php';
+session_start();
 
-    $signup = new signUpManager($conn);
+$errors = [];
 
-    if (!$signup->createAccount($_POST)) {
-        $formError = $signup->getError();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $validator = new Validate();
+
+    // validate input
+    if (!$validator->validateSignUp($_POST)) {
+        $errors = $validator->getErrors();
     } else {
-        header("Location: login.html"); // adjust path if needed
-        exit;
+        $signup = new signUpManager($conn);
+
+        //try to make acc
+        if (!$signup->createAccount($_POST)) {
+            $signupError = $signup->getError(); 
+            if ($signupError) { //if there is an error
+                $errors['general'] = $signupError; //prints generic error message for database(either acc exists or sign up failed)
+            }
+        } else {
+            header("Location: login.html"); //otherwise redirect, this may change if files are moved
+            exit;
+        }
     }
 }
 ?>
@@ -25,7 +38,7 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - Personal Dashboard</title>
     <link href="../public/assets/styles.css" rel="stylesheet" />
-    <link href="../public/assets/login.css" rel="stylesheet" />
+    <link href="../public/assets/form-control.css" rel="stylesheet" />
 
 </head>
 
@@ -43,7 +56,11 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
                 <label for="username" class="block mb-1 text-sm font-medium text-gray-200">Username</label>
                 <input type="text" id="username" name="username" required
                     class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <small class="error"></small>
+        <small class="error"></small>
+        <?php if (!empty($errors['username'])): ?>
+            <p style="color: red !important; text-align: center; margin-top: 0.5rem;">
+            <?= htmlspecialchars($errors['username']) ?></p>
+        <?php endif; ?>
             </div>
 
             <!-- Email -->
@@ -51,7 +68,11 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
                 <label for="email" class="block mb-1 text-sm font-medium text-gray-200">Email</label>
                 <input type="email" id="email" name="email" required
                     class="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <small class="error"></small>
+        <small class="error"></small>
+        <?php if (!empty($errors['email'])): ?>
+            <p style="color: red !important; text-align: center; margin-top: 0.5rem;">
+            <?= htmlspecialchars($errors['email']) ?></p>
+        <?php endif; ?>
             </div>
 
             <!-- Password -->
@@ -76,9 +97,9 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
                 class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold transition duration-200">
                 Sign Up
             </button>
-        <?php if (!empty($formError)): ?>
+        <?php if (!empty($errors['general'])): ?>
             <p style="color: red !important; text-align: center; margin-top: 0.5rem;">
-            <?= htmlspecialchars($formError) ?></p>
+            <?= htmlspecialchars($errors['general']) ?></p>
         <?php endif; ?>
 
         </form>
@@ -88,6 +109,8 @@ require_once __DIR__ . '/../src/php/classes/signUpManager.php';
             <a href="login.html" class="text-blue-400 hover:underline">Login</a>
         </p>
     </div>
+        <script src="../src/js/signup.js"></script>
+
 </body>
 
 </html>
