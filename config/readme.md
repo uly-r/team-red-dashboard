@@ -1,0 +1,1 @@
+In the config folder, you would need to create .env file and copy the template from .env.example and replace the values with yours.

@@ -17,6 +17,7 @@
     </div>
 
     <div id="quickLinksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+      <!-- Check if links exist -->
       <?php if (!empty($links)): ?>
         <?php foreach ($links as $link): ?>
 

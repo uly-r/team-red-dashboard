@@ -1,16 +1,19 @@
+// Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM is ready");
-    const addLinkBtn = document.getElementById("addLinkBtn");
-    const addLinkModal = document.getElementById("addLinkModal");
-    const cancelBtn = document.getElementById("cancelBtn");
 
+    const addLinkBtn = document.getElementById("addLinkBtn"); // "+" button to open modal
+    const addLinkModal = document.getElementById("addLinkModal"); // Modal container
+    const cancelBtn = document.getElementById("cancelBtn"); // "Cancel" button in modal
+
+    // Show modal when "+" button is clicked
     addLinkBtn.addEventListener('click', () => {
-        console.log("Add Link clicked");
+        
         addLinkModal.classList.remove('hidden');
     });
 
+    // Hide modal when "Cancel" button is clicked
     cancelBtn.addEventListener('click', () => {
-        console.log("Cancel clicked");
+        
         addLinkModal.classList.add('hidden');
     });
 });

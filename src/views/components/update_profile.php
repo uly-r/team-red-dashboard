@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Get current user
+// Get current user data
 $stmt = $conn->prepare("SELECT username, email, password FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -22,9 +22,10 @@ if (!$user) {
     exit();
 }
 
+// Flag to track whether any data was successfully updated
 $updated = false;
 
-// Update username
+// Check if a new username was submitted and it's different from the current one
 if (!empty($_POST['username']) && $_POST['username'] !== $user['username']) {
     $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
     if (!empty($username)) {
@@ -37,7 +38,7 @@ if (!empty($_POST['username']) && $_POST['username'] !== $user['username']) {
     }
 }
 
-// Update email
+// Check if a new email was submitted and it's different
 if (!empty($_POST['email']) && $_POST['email'] !== $user['email']) {
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -48,7 +49,7 @@ if (!empty($_POST['email']) && $_POST['email'] !== $user['email']) {
         }
     }
 }
-//UPDATE PASSWORD
+// Check if the user submitted a new password
 if (!empty($_POST['new_password'])) {
     // Check if current password is set
     if (empty($_POST['current_password'])) {

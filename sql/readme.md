@@ -1,0 +1,1 @@
+To be able to run the program with you would need to go to phpmyadmin, and import the file.

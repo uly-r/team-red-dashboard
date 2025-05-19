@@ -1,21 +1,22 @@
+// Get DOM elements
 const weatherForm = document.getElementById("weatherForm");
 const cityInput = document.getElementById("cityInput");
 const card = document.getElementById("card");
 const apiKey = "e6c65b8d5608f3c50a772043bef0e216";
 
 weatherForm.addEventListener("submit", async event => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent form from reloading the page
     const city = cityInput.value;
     if (city) {
         try {
-            const data = await getWeatherData(city);
+            const data = await getWeatherData(city); // Fetch weather info
             displayWeatherInfo(data);
         } catch (error) {
-            displayError(error.message);
+            displayError(error.message); // Show fetch error
         }
     }
     else {
-        displayError("Please enter a city");
+        displayError("Please enter a city"); // Handle empty input
     }
 
 });
@@ -30,13 +31,14 @@ async function getWeatherData(city) {
         throw new Error("Could not fetch weather data");
     }
 
-    return await response.json();
+    return await response.json(); // Convert response to JSON
 }
 
 function displayWeatherInfo(data) {
+     // Destructure the response data
     const {name: city, main:{temp, humidity}, weather: [{description, id}]} = data;
 
-     // Clear previous card content
+     // Clear existing results
      card.textContent = "";
 
      // Create elements
