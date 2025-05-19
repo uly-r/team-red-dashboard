@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../../php/includes/db_connect.php';
-session_start();
 $user_id = $_SESSION['user_id'] ?? 1; 
 
 
@@ -35,7 +34,7 @@ while ($row = $result->fetch_assoc()) {
   <link href="../assets/styles.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100 text-gray-800 p-6">
-  <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl max-w-xl mx-auto">
+  <div class="bg-white/80 backdrop-blur-md border border-slate-300 rounded-2xl p-4 shadow-xl w-full max-w-3xl mx-auto">
     <h2 class="text-xl font-bold mb-4">📅 Dynamic Calendar</h2>
     <div class="flex justify-between items-center mb-4">
       <button onclick="changeMonth(-1)" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">&lt;</button>
