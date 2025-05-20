@@ -108,6 +108,7 @@
     }
 
     function closeAddForm() {
+        document.getElementById("addTaskFormElement").reset();  //reset the form when not submitted but user exits form
         document.getElementById("addTaskForm").style.display = "none";
     }
 
