@@ -28,7 +28,7 @@ The following username and password should be created in order to use this produ
 To deploy this project after downloading this project ensure the name of the downloaded folder is exactly 'team-red'. This is important as some parts of the project are hard coded and will break if not named exactly 'team-red'. Copy the whole 'team-red' folder that has been downloaded, ensure that the project is not copied into a sub folder as there are hard coded values that will redirect to hard coded directories.
 
 ## Using Team Reds product
-After the project has been copied to the server, open a web browser and naviagte to 'team-red' and click on it. You should see another folder called 'public'. Then click on that, now you will see 'landpage.html', 'login.html', 'signup.php'. Click on landpage.html. You will be redirected to the landing page. Either click sign up if you imported the data or click signup(see below). If you imported the data you can access the accounts below with the folowing information.
+After the project has been copied to the server, open a web browser and naviagte to 'team-red' and click on it. You should see another folder called 'public'. Then click on that, now you will see 'landpage.html', 'login.html', and 'signup.php'. Click on 'landpage.html'. You will be redirected to the landing page. You can either click login or signup. After importing the data you can access the accounts below with the folowing information:
 
 1. 
 	> Username: **`testUser`**
