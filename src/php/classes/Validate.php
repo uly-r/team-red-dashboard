@@ -49,6 +49,65 @@ private array $errors=[];
             return empty($this->errors); // if there are errors returns false, no true
         }
 
+        public function validateTask($post){
+            $this->errors=[];
+            $title =        trim($post['task_name']);
+            $description =  trim($post['task_description']);
+            $due_date =     trim($post['date_due']);
+            $is_completed = trim($post['task_status']);
+            $task_priority= trim($post['taskPriority']);
 
+            $this->validateTitle($title);
+            $this->validateDescription($description);
+            $this->validateDate($due_date);
+            $this->validateIsCompleted($is_completed);
+            $this->validateTaskPriority($task_priority);
+
+            return empty($this->errors); // if there are errors returns false, no true
+
+        }
+        
+
+        private function validateTitle($title){
+            if (empty($title)|| strlen($title)<4 ||strlen($title)>12) {
+            $this->errors['task_name'] = "Title must be 4 to 12 characters";
+            return false;
+            }
+            return true;
+        }
+
+        private function validateDescription($description) {
+            if (empty($description)|| strlen($description)<4 ||strlen($description)>255) {
+            $this->errors['task_description'] = "Description  must be 4 to 255 characters";
+            return false;
+            }
+            return true;
+        }
+
+         private function validateDate($date) {
+            if (empty($date)) {
+            $this->errors['due_date'] = "Date is required";
+            return false;
+            }
+            return true;
+        }
+
+        private function validateIsCompleted($is_completed) {
+            if (!in_array($is_completed, ["0", "1"])) {
+             $this->errors['task_status']= "Invalid task status";
+            return false;
+                 }
+            return true;
+            }
+
+        private function validateTaskPriority ($priority) {
+            $valid_priorities =['1', '2', '3'];
+
+            if (!in_array($priority, $valid_priorities)) {
+                $this->errors['taskPriority']= "Please select a valid priority";
+                return false;
+            }
+            return true;
+        }
 
    }
