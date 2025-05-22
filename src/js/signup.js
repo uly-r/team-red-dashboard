@@ -5,7 +5,7 @@ const password = document.getElementById('password');
 const password2 = document.getElementById('confirm_password');
 
 // this list can be added onto 
-const allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'bmcc.cuny.edu', 'stu.bmcc.cuny.edu'];
+const allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'bmcc.cuny.edu', 'stu.bmcc.cuny.edu', 'teamred.com'];
 
 
 form.addEventListener('submit', function (e) {

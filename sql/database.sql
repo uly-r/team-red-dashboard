@@ -1,3 +1,16 @@
+/* Create the database */
+CREATE DATABASE IF NOT EXISTS team_red;
+
+/* Switch to team_red database */
+USE team_red;
+
+/* Drop existing tables  */
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS quick_links;
+DROP TABLE IF EXISTS predefined_icons;
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS notes;
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -5,6 +18,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
+/* create the tables */
 CREATE TABLE quick_links (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -38,4 +52,3 @@ CREATE TABLE notes (
     content TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
