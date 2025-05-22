@@ -24,7 +24,7 @@ private array $errors=[];
     }
 
     // allowed domains
-    $allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com','bmcc.cuny.edu','stu.bmcc.cuny.edu'];
+    $allowedDomains = ['gmail.com', 'yahoo.com', 'outlook.com','bmcc.cuny.edu','stu.bmcc.cuny.edu', 'teamred.com'];
 
     // xtract domain part
     $domain = substr(strrchr($email, "@"), 1); // e.g. 'gmail.com'
