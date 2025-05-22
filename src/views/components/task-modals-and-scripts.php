@@ -6,10 +6,12 @@
             <div>
                 <label for="taskName" class="block">Task Name:</label>
                 <input type="text" class="w-full border rounded px-3 py-1" id="taskName" name="task_name" required>
+                  <div class="text-red-500 text-xs mt-1" id="error-task_name"></div>
             </div>
             <div>
                 <label for="taskDesc" class="block">Task Description:</label>
                 <input type="text" class="w-full border rounded px-3 py-1" id="taskDesc" name="task_description" required>
+                <div class="text-red-500 text-xs mt-1" id="error-task_description"></div>
             </div>
             <div>
                 <label for="taskStatus" class="block">Task Status:</label>
@@ -48,14 +50,17 @@
         <div>
             <label for="updateTaskName" class="block">Task Name:</label>
             <input type="text" class="w-full border rounded px-3 py-1" id="updateTaskName" name="task_name" required>
+            <div class="text-red-500 text-xs mt-1" id="error-update_task_name"></div>
         </div>
         <div>
             <label for="updateTaskDesc" class="block">Task Description:</label>
             <input type="text" class="w-full border rounded px-3 py-1" id="updateTaskDesc" name="task_description" required>
+            <div class="text-red-500 text-xs mt-1" id="error-update_task_description"></div>
         </div>
         <div>
             <label for="updateTaskStatus" class="block">Task Status:</label>
             <select class="w-full border rounded px-3 py-1" name="task_status" id="updateTaskStatus" required>
+            <div class="text-red-500 text-xs mt-1" id="error-update_task_status"></div>
                 <option value="">-select-</option>
                 <option value="1">Completed</option>
                 <option value="0">Not Completed</option>
@@ -64,6 +69,7 @@
         <div>
             <label for="taskPriority" class="block">Task Priority:</label>
             <select class="w-full border rounded px-3 py-1" name="taskPriority" id="updateTaskPriority" required>
+            <div class="text-red-500 text-xs mt-1" id="error-update_task_priority"></div>
                 <option value="">-select-</option>
                 <option value="1">Low</option>
                 <option value="2">Medium</option>
@@ -73,6 +79,7 @@
         <div>
             <label for="updateDue_Date" class="block">Due Date:</label>
             <input type="date" class="w-full border rounded px-3 py-1" name="date_due" id="updateDue_Date" required min="<?php echo date('Y-m-d'); ?>">
+            <div class="text-red-500 text-xs mt-1" id="error-update_due-date"></div>
         </div>
         <div class="flex justify-between">
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
@@ -99,6 +106,7 @@
     }
 
     function closeEditForm() {
+        document.querySelectorAll('[id^="error-"]').forEach(el => el.textContent = '');
         document.getElementById("updateTaskForm").style.display = "none";
     }
 
@@ -108,10 +116,12 @@
     }
 
     function closeAddForm() {
+        document.querySelectorAll('[id^="error-"]').forEach(el => el.textContent = ''); //clear errors if any
         document.getElementById("addTaskFormElement").reset();  //reset the form when not submitted but user exits form
         document.getElementById("addTaskForm").style.display = "none";
     }
 
+    //toggle mode button
     function toggleFullTable() {
     const wrapper = document.getElementById("taskTableWrapper");
     const closeBtn = document.getElementById("closeFullscreenBtn");
@@ -195,59 +205,104 @@ async function handleDelete(event) {
 } 
 
 async function handleAdd(event) {
-    //prevents the browser from refreshing, script handles the sumbission instead
-    event.preventDefault(); 
 
-    //grabs the form values
-    const form = event.currentTarget;
-     // saves the form data into a FormData object
-    const formData = new FormData(form);
-
-    //send the form data to the .php endpoint using post
-    const response = await fetch("components/add-task.php", {
-        method: "POST",
-        body: formData
-    });
-    //wait for the php response
-    const result = await response.json();
-
-    // if php handled the action and response from php was success(meaning the action happened): 
-    if (response.status== 200 && result.success) {
-        //clears fields and reloads task list
-        form.reset();   
-        closeAddForm(); 
-        refreshTasks(); 
-    } else {
-    console.log("Error deleting task: " + response.status); 
-    }
-} 
-
-async function handleEdit(event) {
     //prevents the browser from refreshing, script handles the sumbission instead
     event.preventDefault();
 
     //grabs the form values
     const form = event.currentTarget;
-    const formData = new FormData(form);  // saves the form data into a FormData object
+    const formData = new FormData(form);
+
+    // clear previous errors
+    document.querySelectorAll('[id^="error-"]').forEach(el => el.textContent = '');
 
     //send the form data to the .php endpoint using post
-    const response = await fetch("components/update-task.php", {
-        method: "POST",
-        body: formData
-    });
+    try {
+        const response = await fetch("components/add-task.php", {
+            method: "POST",
+            body: formData
+        });
 
-    //wait for the php response
-    const result = await response.json(); 
+        const result = await response.json();
 
-    // if php handled the action and response from php was success(meaning the action happened): 
-    if (response.status== 200 && result.success) {
-        //clears fields and reloads task list
-        form.reset(); 
-        closeEditForm();
-        refreshTasks();
-    } else {
-    console.log("Error deleting task: " + response.status); 
+        if (response.status === 200 && result.success) {
+            form.reset();
+            closeAddForm();
+            refreshTasks();
+        } else if (result.validationErrors) {
+
+           //if we get a vadilation error response, print it to the console and user
+            console.error("Validation failed:", result.validationErrors);
+            showValidationErrors(result.validationErrors, "error-");
+
+        } else if (result.error) {
+            //if there was an error deleting the task, print to the console
+            console.error("error:", result.error);
+        } else {
+            console.error("Unexpected error. Status response:", response.status);
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
     }
-} 
+}
+
+
+async function handleEdit(event) {
+
+    //prevents the browser from refreshing, script handles the sumbission instead
+    event.preventDefault();
+
+    //grabs the form values
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    // clear previous errors
+    document.querySelectorAll('[id^="error-"]').forEach(el => el.textContent = '');
+
+    //send the form data to the .php endpoint using post
+    try {
+        const response = await fetch("components/update-task.php", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200 && result.success) {
+            form.reset();
+            closeEditForm();
+            refreshTasks();
+        } else if (result.validationErrors) {
+
+           //if we get a vadilation error response, print it to the console and user
+            console.error("Validation failed:", result.validationErrors);
+            showValidationErrors(result.validationErrors, "error-update_"); 
+
+        } else if (result.error) {
+            //if there was an error deleting the task, print to the console
+            console.error("error:", result.error);
+        } else {
+            console.error("Unexpected error. Status response:", response.status);
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+    }
+}
+
+
+
+// 1st argument is the object of the errors to be printed, second is the element id prefix
+function showValidationErrors(errors, prefix) {
+
+    //clear previous errors
+    document.querySelectorAll(`[id^="${prefix}"]`).forEach(el => el.textContent = '');
+
+    // show each error under the appropriate element
+    Object.entries(errors).forEach(([field, message]) => {
+        const errorDiv = document.getElementById(`${prefix}${field}`); 
+        if (errorDiv) errorDiv.textContent = message;
+    });
+}
+
 
 </script>
