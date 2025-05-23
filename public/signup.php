@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $errors['general'] = $signupError; //prints generic error message for database(either acc exists or sign up failed)
             }
         } else {
-            header("Location: login.html"); //otherwise redirect, this may change if files are moved
+            header("Location: login.php"); //otherwise redirect, this may change if files are moved
             exit;
         }
     }
@@ -106,11 +106,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <p class="mt-4 text-sm text-gray-300">
             Already have an account?
-            <a href="login.html" class="text-blue-400 hover:underline">Login</a>
+            <a href="login.php" class="text-blue-400 hover:underline">Login</a>
         </p>
     </div>
         <script src="../src/js/signup.js"></script>
 
 </body>
-
 </html>

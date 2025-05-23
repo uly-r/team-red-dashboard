@@ -136,6 +136,7 @@
         closeBtn.classList.add("hidden");
         filterTabs.classList.add("hidden"); //hides the filter tabs since we exited the view mode
         refreshTasks();
+        window.location.reload();   // hard refresh to apply if any changes
     } else {
         //toggle in full screen
         wrapper.classList.add("fixed", "inset-0", "z-50", "bg-white", "p-6", "overflow-auto");

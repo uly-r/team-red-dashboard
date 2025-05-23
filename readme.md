@@ -25,17 +25,20 @@ The following username and password should be created in order to use this produ
 
 
 ## Deployment
-To deploy this project after downloading this project ensure the name of the downloaded folder is exactly 'team-red'. This is important as some parts of the project are hard coded and will break if not named exactly 'team-red'. Copy the whole 'team-red' folder that has been downloaded, ensure that the project is not copied into a sub folder as there are hard coded values that will redirect to hard coded directories.
+To deploy this project after downloading or cloning ensure the project name is 'team-red'. This is important as some parts of the project are hard coded and will break if not named exactly 'team-red'. Copy the whole 'team-red' folder that has been downloaded or cloned to the server, ensure that the project is not copied into a sub folder as there are hardcoded paths that require to be in its own directory under no sub folders.
 
 ## Using Team Reds product
-After the project has been copied to the server, open a web browser and naviagte to 'team-red' and click on it. You should see another folder called 'public'. Then click on that, now you will see 'landpage.html', 'login.html', and 'signup.php'. Click on 'landpage.html'. You will be redirected to the landing page. You can either click login or signup. After importing the data you can access the accounts below with the folowing information:
-
+After the project has been copied to the server, open a web browser and naviagte to 'team-red' and click on it or type the following without quotes if you are using your local machine:
+`localhost/team-red/`
+ You should see another folder called 'public'. Click on it and you should be automatically redirected to the landing page, there is no need for index.html or index.php. After importing the data you can access the accounts below with the folowing information:
 1. 
-	> Username: **`testUser`**
-	Password: **`TeamRed!`**
+
+    Username: testUser
+	Password: TeamRed!
 2. 
-	> Username: **`studentBlah`**
-	Password: **`TotallyNotTeamRed!`**
+
+	Username: studentBlah
+	Password: TotallyNotTeamRed!
     
 ## How to sign Up
     If you sign up please ensure you are using one of these domains: 'gmail.com', 'yahoo.com', 'outlook.com','bmcc.cuny.edu','stu.bmcc.cuny.edu', 'teamred.com'. The site ONLY allows these domains. 
